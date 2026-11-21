@@ -466,9 +466,10 @@
   @media(max-width:560px){.orbit-stage{height:400px}.orbit-item{width:118px}}
 
   /* Curved rail */
-  .rail-stage{position:relative;height:400px;max-width:1060px;margin:0 auto}
+  .rail-stage{position:relative;height:400px;max-width:1060px;margin:0 auto;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+  .rail-stage.dragging{cursor:grabbing}
   .rail-stage svg.rail-curve{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-  .rail-item{position:absolute;width:158px;background:#fff;border:1px solid #e9e0cd;border-radius:14px;padding:7px;box-shadow:0 16px 32px rgba(60,45,10,.14);cursor:pointer;text-align:left;font-family:inherit;color:#111;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .35s,filter .35s;will-change:transform}
+  .rail-item{position:absolute;width:158px;background:#fff;border:1px solid #e9e0cd;border-radius:14px;padding:7px;box-shadow:0 16px 32px rgba(60,45,10,.14);cursor:pointer;text-align:left;font-family:inherit;color:#111;transition:opacity .35s,filter .35s;will-change:transform}
   .rail-item::before{content:"";position:absolute;left:50%;top:-26px;width:1px;height:26px;background:#b9ab8c}
   .rail-item::after{content:"";position:absolute;left:50%;top:-31px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:#111}
   .rail-item img{width:100%;aspect-ratio:3/3.5;object-fit:cover;border-radius:9px;pointer-events:none}
@@ -489,6 +490,7 @@
   .look-card .ln{display:block;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:8px 2px 1px}
   .look-card .lp{display:block;font-size:.78rem;color:#6f675a;margin:0 2px 3px}
   .look-card.centre{width:196px;box-shadow:0 24px 44px rgba(60,45,10,.2)}
+  .look-card.sel{box-shadow:0 0 0 2px var(--maroon),0 24px 44px rgba(60,45,10,.22)}
   .looks-actions{text-align:center;margin:20px 0 6px}
   .look-detail{display:none;max-width:980px;margin:30px auto 0;background:#fff;border:1px solid #e9e0cd;border-radius:18px;overflow:hidden;grid-template-columns:1fr 1.1fr;box-shadow:0 24px 48px rgba(60,45,10,.14)}
   .look-detail.open{display:grid;animation:confirmIn .55s cubic-bezier(.22,1,.36,1)}
@@ -539,7 +541,124 @@
   .swatch.unavailable::after{content:"";position:absolute;left:50%;top:-5px;width:2px;height:calc(100% + 10px);background:#b3261e;transform:translateX(-50%) rotate(45deg);border-radius:2px}
   .swatch.unavailable:hover{transform:none}
   .rail-stage.few .rail-item{width:204px}
-  @media(max-width:640px){.rail-stage.few .rail-item{width:158px}}
+  @media(max-width:640px){.rail-stage.few .rail-item{width:128px}}
+
+  /* ---------- Cart / Orders / Shop tools / Tracking / Reviews / Size guide ---------- */
+  .cart-btn{position:relative;width:46px;height:46px;min-height:46px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--maroon);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;transition:transform .25s,box-shadow .25s}
+  .cart-btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(76,42,140,.14)}
+  .cart-btn svg{width:22px;height:22px}
+  .cart-count{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:999px;background:var(--maroon);color:#fdf3e3;font-size:.72rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
+  .cart-count[hidden]{display:none}
+  .cart-backdrop{position:fixed;inset:0;background:rgba(24,14,38,.5);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s;z-index:240}
+  .cart-backdrop.open{opacity:1;pointer-events:auto}
+  .cart-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(400px,94vw);background:var(--porcelain);z-index:250;display:none;flex-direction:column;box-shadow:-24px 0 60px rgba(0,0,0,.3)}
+  .cart-drawer.open{display:flex;animation:cartIn .45s cubic-bezier(.22,1,.36,1)}
+  @keyframes cartIn{from{transform:translateX(70px);opacity:0}to{transform:none;opacity:1}}
+  .cart-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
+  .cart-head h3{margin:0;font-family:"Playfair Display",serif;font-size:1.3rem}
+  .cart-close{width:42px;height:42px;min-height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:1rem;color:var(--ink)}
+  .cart-items{flex:1;overflow-y:auto;padding:16px 20px}
+  .cart-empty{color:var(--ink-soft);text-align:center;padding:28px 10px}
+  .citem{display:flex;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:10px}
+  .citem img{width:52px;height:64px;object-fit:cover;border-radius:9px;flex:0 0 auto}
+  .citem .ci{flex:1;min-width:0}
+  .citem .ci b{display:block;font-size:.95rem;line-height:1.25}
+  .citem .ci span{display:block;font-size:.8rem;color:var(--ink-soft)}
+  .citem .ctag{display:inline-block;background:rgba(201,162,75,.18);color:#7a5b12;border:1px solid rgba(201,162,75,.5);border-radius:999px;padding:1px 8px;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-top:3px}
+  .cqty{display:inline-flex;align-items:center;gap:10px;margin-top:7px;border:1px solid var(--line);border-radius:999px;padding:2px 6px}
+  .cqty button{width:32px;height:32px;min-height:32px;border-radius:50%;border:none;background:var(--porcelain);font-size:1.05rem;cursor:pointer;color:var(--maroon);font-weight:700;line-height:1}
+  .cqty span{font-weight:700;min-width:16px;text-align:center}
+  .citem .cl{text-align:right;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between}
+  .citem .cl b{font-size:.92rem;color:var(--emerald)}
+  .crm{border:none;background:none;color:#b3261e;cursor:pointer;font-size:.95rem;min-height:32px;padding:2px 4px}
+  .cart-foot{border-top:1px solid var(--line);padding:16px 20px 20px;background:#fff}
+  .crow{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;font-size:.98rem}
+  .crow small{color:var(--ink-soft)}
+  .crow b{color:var(--emerald)}
+  .cart-note{font-size:.8rem;color:var(--ink-soft);margin:8px 0 12px}
+  .cart-checkout{width:100%;background:linear-gradient(120deg,var(--maroon),var(--maroon-deep));color:#fdf3e3;border:none;border-radius:999px;padding:14px;font-weight:700;font-size:1rem;cursor:pointer;min-height:50px;letter-spacing:.03em}
+  .shop-tools{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:0 auto 22px;max-width:780px}
+  .shop-tools input[type="search"]{flex:1;min-width:170px;border:1px solid var(--line);border-radius:999px;padding:11px 18px;font:inherit;min-height:48px;background:#fff;color:var(--ink)}
+  .shop-tools select{border:1px solid var(--line);border-radius:999px;padding:11px 14px;font:inherit;min-height:48px;background:#fff;color:var(--ink);cursor:pointer}
+  .sg-btn{border:1px solid var(--maroon);color:var(--maroon);background:#fff;border-radius:999px;padding:11px 18px;font:inherit;font-weight:600;min-height:48px;cursor:pointer}
+  .flagpo{position:absolute;left:10px;bottom:10px;background:var(--gold);color:#3a2a05;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:4px 10px;z-index:2}
+  .flagpo.out{background:#3c4048;color:#fff}
+  .add-cart{margin-top:8px;width:100%;background:#fff;color:var(--maroon);border:1px solid var(--maroon);border-radius:10px;padding:11px;font-weight:600;font-size:.95rem;cursor:pointer;min-height:46px;transition:background .25s,color .25s}
+  .add-cart:hover{background:var(--maroon);color:#fdf3e3}
+  .add-cart[disabled],.reserve[disabled]{opacity:.45;cursor:not-allowed}
+  .pill-black[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+  .pill-outline[disabled]{opacity:.45;cursor:not-allowed}
+  .qv-body .pill-outline{width:100%;margin-top:10px}
+  .qv-pre{display:none;background:rgba(201,162,75,.14);border:1px solid rgba(201,162,75,.55);color:#7a5b12;border-radius:10px;padding:9px 12px;font-size:.88rem;font-weight:600;margin-top:14px}
+  .qv-pre.show{display:block}
+  .qv-related{margin-top:22px;border-top:1px solid #e9e0cd;padding-top:16px}
+  .qv-related h4{margin:0 0 10px;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:#8a7f68}
+  .rel-row{display:flex;gap:10px}
+  .rel-card{flex:1;min-width:0;background:#fff;border:1px solid #e9e0cd;border-radius:12px;padding:6px;cursor:pointer;text-align:left;font:inherit;color:#111}
+  .rel-card img{width:100%;aspect-ratio:3/3.4;object-fit:cover;border-radius:8px;pointer-events:none}
+  .rel-card b{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;margin:6px 2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rel-card span{display:block;font-size:.75rem;color:#6f675a;margin:0 2px 2px}
+  .rel-add{display:block;width:100%;margin-top:5px;border:1px solid var(--maroon);color:var(--maroon);background:#fff;border-radius:8px;padding:7px;font-weight:600;font-size:.78rem;cursor:pointer;min-height:36px}
+  .rel-add[disabled]{opacity:.45;cursor:not-allowed}
+  .sg-link{background:none;border:none;color:var(--maroon);font:inherit;font-weight:600;text-decoration:underline;cursor:pointer;padding:2px 4px;min-height:30px;letter-spacing:.02em;text-transform:none}
+  .sg-overlay{position:fixed;inset:0;z-index:262;background:rgba(22,18,10,.55);backdrop-filter:blur(8px);display:none;overflow-y:auto;padding:22px 14px}
+  .sg-overlay.open{display:block}
+  .sg-shell{max-width:640px;margin:0 auto;background:#faf6ee;border-radius:22px;padding:30px;position:relative;box-shadow:0 40px 90px rgba(0,0,0,.45);animation:adminIn .5s cubic-bezier(.22,1,.36,1)}
+  .sg-shell h3{font-family:"Playfair Display",serif;font-size:1.5rem;margin:.2em 0 .4em}
+  .sg-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92rem}
+  .sg-table th,.sg-table td{border:1px solid var(--line);padding:9px 10px;text-align:left}
+  .sg-table th{background:#fff;color:var(--maroon)}
+  .pay-opts{display:flex;gap:8px;flex-wrap:wrap}
+  .pay-opt{position:relative;display:inline-block}
+  .pay-opt input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+  .pay-opt span{display:inline-flex;align-items:center;border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 18px;font-weight:600;min-height:46px;cursor:pointer}
+  .pay-opt input:checked + span{background:var(--maroon);color:#fdf3e3;border-color:transparent}
+  .pay-opt input:focus-visible + span{outline:2px solid var(--gold);outline-offset:2px}
+  .cart-summary{background:var(--porcelain);border:1px dashed var(--gold);border-radius:12px;padding:14px 18px;margin-bottom:18px;font-size:.95rem}
+  .cart-summary h4{margin:0 0 8px;font-family:"Playfair Display",serif;font-size:1.05rem}
+  .cart-summary .csr{display:flex;justify-content:space-between;gap:14px;padding:3px 0}
+  .cart-summary .csr span{color:var(--ink-soft)}
+  .cart-summary .csr.tot{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;font-weight:700}
+  .cart-summary .csr.tot span{color:var(--ink)}
+  .del-line{font-size:.88rem;color:var(--ink-soft);margin:12px 0 0}
+  .del-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:820px;margin:0 auto 22px}
+  @media(max-width:640px){.del-cards{grid-template-columns:1fr}}
+  .del-card{background:rgba(255,255,255,.08);border:1px solid rgba(230,200,119,.4);border-radius:16px;padding:16px 18px;color:#f3ead2;text-align:left}
+  .del-card b{display:block;font-size:1.02rem;color:#fff;margin-bottom:3px}
+  .del-card span{font-size:.9rem;color:#ddd2b2}
+  .obadge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:999px;background:#b3261e;color:#fff;font-size:.72rem;font-weight:700;padding:0 6px;margin-left:5px;vertical-align:2px}
+  .obadge[hidden]{display:none}
+  .ostatus{border:1px solid var(--line);border-radius:999px;padding:8px 10px;font:inherit;font-weight:600;font-size:.88rem;background:#fff;min-height:42px;cursor:pointer;color:var(--ink)}
+  .opre{display:inline-block;background:rgba(201,162,75,.2);border:1px solid var(--gold);color:#7a5b12;border-radius:999px;padding:1px 9px;font-size:.68rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-left:6px;vertical-align:2px}
+  .orow .ai>span{display:block;margin-top:2px}
+  .check-field{display:inline-flex;align-items:center;gap:9px;font-weight:600;cursor:pointer;min-height:36px}
+  .check-field input{width:22px;height:22px;min-height:22px;accent-color:var(--maroon);cursor:pointer}
+  .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:860px){.rev-grid{grid-template-columns:1fr}}
+  .rev-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 16px 34px rgba(60,45,10,.08)}
+  .rev-stars{color:var(--gold);letter-spacing:.18em;font-size:1rem}
+  .rev-card p{color:var(--ink-soft);font-weight:300;margin:.6em 0 .8em}
+  .rev-card b{font-family:"Playfair Display",serif}
+  .track-sec{background:#faf6ee;border-top:1px solid #e9e0cd}
+  .track-card{background:#fff;border:1px solid var(--line);border-radius:20px;max-width:680px;margin:0 auto;padding:28px;box-shadow:0 24px 48px rgba(60,45,10,.1)}
+  .track-form{display:flex;gap:10px;flex-wrap:wrap}
+  .track-form input{flex:1;min-width:190px;border:1px solid var(--line);border-radius:999px;padding:12px 18px;font:inherit;min-height:50px;color:var(--ink)}
+  .track-form button{background:linear-gradient(120deg,var(--maroon),var(--maroon-deep));color:#fdf3e3;border:none;border-radius:999px;padding:12px 26px;font-weight:700;cursor:pointer;min-height:50px;font:inherit}
+  .track-order{border-top:1px solid var(--line);margin-top:20px;padding-top:18px}
+  .track-order h4{margin:0 0 2px;font-family:"Playfair Display",serif;font-size:1.15rem}
+  .track-order .tm{color:var(--ink-soft);font-size:.88rem;margin:0 0 16px}
+  .tsteps{list-style:none;display:flex;margin:0;padding:0}
+  .tsteps li{flex:1;text-align:center;position:relative;padding-top:20px;font-size:.76rem;font-weight:600;color:var(--ink-soft)}
+  .tsteps li::before{content:"";position:absolute;top:5px;left:50%;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;background:#ddd2ba;box-shadow:0 0 0 2px #fff,0 0 0 3px var(--line);z-index:1}
+  .tsteps li::after{content:"";position:absolute;top:11px;left:calc(-50% + 8px);width:calc(100% - 16px);height:2px;background:#e7dcc4}
+  .tsteps li:first-child::after{display:none}
+  .tsteps li.done{color:var(--emerald)}
+  .tsteps li.done::before{background:var(--emerald)}
+  .tsteps li.done::after{background:var(--emerald)}
+  .tsteps li.now{color:var(--maroon)}
+  .tsteps li.now::before{background:var(--gold);box-shadow:0 0 0 2px #fff,0 0 0 5px rgba(201,162,75,.4)}
+  .track-cancel{background:rgba(179,38,30,.08);border:1px solid rgba(179,38,30,.4);color:#b3261e;border-radius:12px;padding:10px 14px;font-weight:600}
+  .track-none{color:var(--ink-soft);margin:16px 0 0}
 
   /* Mobile performance mode: same look, cheaper effects, bigger tap targets */
   @media (max-width:640px){
@@ -577,6 +696,7 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
       <a class="nav-admin" href="#admin" data-admin-open>Admin Panel</a>
+      <button class="cart-btn" type="button" id="cartBtn" aria-label="Open your cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8h13l-1.1 12.5H6.6L5.5 8z"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10"/></svg><span class="cart-count" id="cartCount" hidden>0</span></button>
       <a class="btn btn-grad nav-cta" href="#book" style="padding:10px 20px;min-height:44px">Book Your Dress</a>
     </nav>
   </div>
@@ -657,7 +777,19 @@
       <button class="filter" data-filter="party" type="button">Party &amp; Formal</button>
     </div>
 
+    <div class="shop-tools reveal">
+      <input type="search" id="shopSearch" placeholder="Search dresses — try a name or “walima”" aria-label="Search dresses" />
+      <select id="shopSort" aria-label="Sort dresses">
+        <option value="">Sort: Featured</option>
+        <option value="low">Price: Low to High</option>
+        <option value="high">Price: High to Low</option>
+        <option value="name">Name A–Z</option>
+      </select>
+      <button class="sg-btn" type="button" data-sizeguide>Size Guide</button>
+    </div>
+
     <div class="grid" id="dressGrid"></div>
+    <p class="demo-note" id="shopNone" hidden>No dresses match your search — try another name or occasion.</p>
 
     <div class="deposit-banner reveal rv-zoom">
       <div class="ic" aria-hidden="true"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#e6c877" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 2.5V11c0 4.6-3 7.7-7 9.5C8 18.7 5 15.6 5 11V5.5z"/><path d="M9 11.5l2.2 2.2L15.5 9.5"/></svg></div>
@@ -856,6 +988,19 @@
   </div>
 </section>
 
+<!-- ============ REVIEWS ============ -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Customer Reviews</p>
+      <hr class="gold-rule" />
+      <h2>Loved by our <span class="grad-text">brides</span></h2>
+      <p>Words from customers who rented with us for their big days.</p>
+    </div>
+    <div class="rev-grid" id="revGrid"></div>
+  </div>
+</section>
+
 <!-- ============ BOOKING ============ -->
 <section class="booking-sec" id="book">
   <div class="wrap">
@@ -863,11 +1008,18 @@
       <p class="kicker">Rental Booking</p>
       <hr class="gold-rule" />
       <h2>Reserve your dress</h2>
-      <p>Send a booking enquiry and we will confirm availability for your dates. This is a demo form — enquiries are confirmed personally on Instagram.</p>
+      <p>Pick your dress, choose your function date and number of days, and book — your booking is saved instantly, and we confirm availability personally on Instagram.</p>
     </div>
+
+    <div class="del-cards reveal" id="delCards"></div>
 
     <div class="booking-card reveal rv-zoom">
       <form id="bookForm" novalidate>
+        <div class="cart-summary" id="cartSummary" hidden>
+          <h4>Your cart</h4>
+          <div id="cartSummaryItems"></div>
+          <p class="del-line" style="margin-top:8px">Checking out everything in your cart as one booking. Rent total updates with the number of days below; refundable security is paid once per piece.</p>
+        </div>
         <div class="form-grid">
           <div class="field" id="f-name">
             <label for="inName">Your name <span class="req">*</span></label>
@@ -889,10 +1041,10 @@
             <input id="inEvent" name="event" type="date" />
             <span class="err">Please pick your event date.</span>
           </div>
-          <div class="field" id="f-return">
-            <label for="inReturn">Return date <span class="req">*</span></label>
-            <input id="inReturn" name="return" type="date" />
-            <span class="err">Return date must be after the event date (usually the next day).</span>
+          <div class="field" id="f-days">
+            <label for="inDays">Number of days <span class="req">*</span></label>
+            <input id="inDays" name="days" type="number" min="1" max="30" step="1" value="1" />
+            <span class="err">Please enter the number of rental days (1 or more).</span>
           </div>
           <div class="field full">
             <label for="inCity">Your city</label>
@@ -906,19 +1058,49 @@
             <label for="inNotes">Anything we should know? <span style="color:var(--ink-soft);font-weight:400">(size, colour preference…)</span></label>
             <textarea id="inNotes" name="notes" rows="3" placeholder="Optional"></textarea>
           </div>
+          <div class="field full" id="f-pay">
+            <label>Payment method</label>
+            <div class="pay-opts" id="payOpts">
+              <label class="pay-opt"><input type="radio" name="pay" value="Cash on Delivery" checked /><span>Cash on Delivery</span></label>
+              <label class="pay-opt"><input type="radio" name="pay" value="JazzCash" /><span>JazzCash</span></label>
+              <label class="pay-opt"><input type="radio" name="pay" value="Easypaisa" /><span>Easypaisa</span></label>
+            </div>
+            <p class="del-line" id="payInfoLine"></p>
+          </div>
         </div>
         <p class="rules-note" id="bookingRules"></p>
-        <button class="submit-btn" type="submit">Send Booking Enquiry</button>
-        <p class="form-note">Demo form — nothing is sent or stored. To confirm a real booking, message us on Instagram (see Contact below).</p>
+        <p class="del-line" id="delLine" style="margin:0 0 6px"></p>
+        <button class="submit-btn" type="submit">Confirm Booking</button>
+        <p class="form-note">Demo booking — your booking is saved on this device and appears in the shop's Orders list on this device. For the fastest confirmation, also DM us on Instagram (see Contact below).</p>
       </form>
 
       <div class="confirm" id="confirmBox" role="status">
         <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-        <h3>Enquiry received — shukriya!</h3>
-        <p>Your booking enquiry has been noted. We will confirm your dress and dates shortly — for the fastest reply, send us the same details in an Instagram DM.</p>
+        <h3>Booking saved — shukriya!</h3>
+        <p>Your booking has been saved and added to the shop's orders. We confirm every booking personally — for the fastest reply, send us the same details in an Instagram DM.</p>
         <div class="summary" id="confirmSummary"></div>
-        <button class="again" type="button" id="againBtn">Make another enquiry</button>
+        <p id="confirmTrack" style="font-weight:600;color:var(--maroon)"></p>
+        <button class="again" type="button" id="againBtn">Make another booking</button>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRACK ORDER ============ -->
+<section class="track-sec" id="track">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Live Order Tracking</p>
+      <hr class="gold-rule" />
+      <h2>Track your <span class="grad-text">booking</span></h2>
+      <p>Enter the Order ID from your booking confirmation (for example 1001), or the mobile number you booked with.</p>
+    </div>
+    <div class="track-card reveal rv-zoom">
+      <form class="track-form" id="trackForm">
+        <input id="trackInput" type="text" inputmode="text" autocomplete="off" placeholder="Order ID or mobile number" aria-label="Order ID or mobile number" />
+        <button type="submit">Track</button>
+      </form>
+      <div id="trackResult"></div>
     </div>
   </div>
 </section>
@@ -974,13 +1156,53 @@
         <h3 id="qvName">—</h3>
         <p class="qv-desc" id="qvDesc"></p>
         <div class="qv-price"><span id="qvRent">—</span><small id="qvSec">Refundable security —</small></div>
-        <p class="qv-opt-label">Size</p>
+        <p class="qv-opt-label">Size · <button class="sg-link" type="button" data-sizeguide>Size guide</button></p>
         <div class="qv-sizes" id="qvSizes"></div>
         <p class="qv-opt-label">Colour — <span id="qvColourName">As Shown</span></p>
         <div class="swatches" id="qvSwatches"></div>
         <button class="pill-black" type="button" id="qvBook">Book This Dress</button>
+        <button class="pill-outline" type="button" id="qvAddCart">Add to Cart</button>
+        <div class="qv-pre" id="qvPre"></div>
+        <div class="qv-related" id="qvRelated" hidden>
+          <h4>You may also like</h4>
+          <div class="rel-row" id="qvRelRow"></div>
+        </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ============ CART DRAWER ============ -->
+<div class="cart-backdrop" id="cartBackdrop"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Your cart">
+  <div class="cart-head">
+    <h3>Your Cart</h3>
+    <button class="cart-close" type="button" id="cartClose" aria-label="Close cart">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot" id="cartFoot">
+    <div class="crow"><span>Rent total <small>(per day)</small></span><b id="cartRentTotal">Rs 0</b></div>
+    <div class="crow"><span>Refundable security</span><b id="cartSecTotal">Rs 0</b></div>
+    <p class="cart-note">Rental days are chosen at checkout — your rent total is the per-day rent × your days. Security is refunded in full on a timely return.</p>
+    <button class="cart-checkout" type="button" id="cartCheckout">Checkout — Book Now</button>
+  </div>
+</aside>
+
+<!-- ============ SIZE GUIDE ============ -->
+<div class="sg-overlay" id="sgOverlay" role="dialog" aria-modal="true" aria-label="Size guide">
+  <div class="sg-shell">
+    <button class="qv-close" type="button" id="sgClose" aria-label="Close size guide">✕</button>
+    <p class="mech-label">Fitting Room Notes</p>
+    <h3>Dress Size Guide</h3>
+    <p style="color:var(--ink-soft);font-weight:300;margin:0">Every rental includes a free fitting at the shop before your event — the sizes below are a starting guide, and most dresses can be adjusted 1–2 inches at the fitting.</p>
+    <table class="sg-table">
+      <tr><th>Size</th><th>Bust</th><th>Waist</th><th>Best for</th></tr>
+      <tr><td><b>S</b></td><td>34 in</td><td>28 in</td><td>Petite frames</td></tr>
+      <tr><td><b>M</b></td><td>36 in</td><td>30 in</td><td>Our most-rented fit</td></tr>
+      <tr><td><b>L</b></td><td>38–40 in</td><td>32–34 in</td><td>Curvier frames</td></tr>
+      <tr><td><b>Free size</b></td><td>Adjustable</td><td>Adjustable</td><td>Sarees &amp; draped styles — draping included</td></tr>
+    </table>
+    <p style="color:var(--ink-soft);font-weight:300;margin:0">Between sizes? Choose the larger one — taking in is always easier at the fitting. Bangle sizes (2.4 · 2.6 · 2.8) are wrist measurements in inches. Still unsure, DM us on Instagram with your measurements and we will suggest a size.</p>
   </div>
 </div>
 
@@ -1017,7 +1239,9 @@
       <div class="saved-toast" id="savedToast">Saved — the live site has been updated.</div>
       <div class="admin-tabs" role="tablist" aria-label="Admin sections">
         <button class="atab active" type="button" data-atab="dresses">Rental Dresses</button>
+        <button class="atab" type="button" data-atab="orders">Orders <span class="obadge" id="ordersBadge" hidden>0</span></button>
         <button class="atab" type="button" data-atab="offers">Offers &amp; Banners</button>
+        <button class="atab" type="button" data-atab="reviews">Reviews</button>
         <button class="atab" type="button" data-atab="rental">Rental &amp; Booking</button>
         <button class="atab" type="button" data-atab="settings">Settings</button>
       </div>
@@ -1057,6 +1281,13 @@
               <div class="field"><label for="dfImgUrl">…or paste a photo URL</label><input id="dfImgUrl" type="url" placeholder="https://… (optional)" /></div>
               <div class="field"><label for="dfSizes">Sizes available</label><input id="dfSizes" type="text" placeholder="e.g. S, M, L — free fitting" /></div>
               <div class="field"><label for="dfColours">Colours (comma separated)</label><input id="dfColours" type="text" placeholder="e.g. Classic Red, Emerald, Maroon" /></div>
+              <div class="field"><label for="dfPreNote">Pre-order — expected availability note</label><input id="dfPreNote" type="text" placeholder="e.g. Expected: 10 days" /></div>
+              <div class="field"><label>Availability flags</label>
+                <div style="display:flex;gap:20px;flex-wrap:wrap;padding-top:4px">
+                  <label class="check-field"><input type="checkbox" id="dfPreorder" /> Pre-Order</label>
+                  <label class="check-field"><input type="checkbox" id="dfSoldout" /> Booked Out</label>
+                </div>
+              </div>
               <div class="field full"><label for="dfDesc">Description</label><textarea id="dfDesc" rows="2" placeholder="Fabric, handwork, what makes it special…"></textarea></div>
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
@@ -1065,6 +1296,12 @@
             </div>
             <p class="admin-note">Saved dresses appear immediately in Collections, the booking form and the Virtual Fitting Room.</p>
           </form>
+        </div>
+
+        <!-- Orders pane -->
+        <div class="apane" id="pane-orders">
+          <p class="admin-note" style="margin:0 0 14px">Demo note: yahan wohi orders dikhte hain jo <b>is browser</b> mein kiye gaye hon — ye static demo site hai, is ka koi server nahi, to doosre phone/browser ke orders yahan nazar nahi ayenge. Asal bookings Instagram par bhi confirm hoti hain. Tracking steps: New = Received · Dispatched = dress customer ke paas (Picked Up / Out) · Delivered = dress wapas aa gayi (Returned).</p>
+          <div id="adminOrderList"></div>
         </div>
 
         <!-- Offers pane -->
@@ -1078,6 +1315,33 @@
             </div>
             <div style="margin-top:16px"><button class="mini-btn grad" type="submit">Add Offer</button></div>
             <p class="admin-note">Offers show as banner cards under the hero on the live site.</p>
+          </form>
+        </div>
+
+        <!-- Reviews pane -->
+        <div class="apane" id="pane-reviews">
+          <div id="adminReviewList"></div>
+          <form class="aform" id="reviewForm">
+            <h3 id="reviewFormTitle">Add a Review</h3>
+            <input type="hidden" id="rvId" />
+            <div class="form-grid">
+              <div class="field"><label for="rvName">Customer name *</label><input id="rvName" type="text" placeholder="e.g. Ayesha K." /></div>
+              <div class="field"><label for="rvStars">Stars *</label>
+                <select id="rvStars">
+                  <option value="5">5 stars</option>
+                  <option value="4">4 stars</option>
+                  <option value="3">3 stars</option>
+                  <option value="2">2 stars</option>
+                  <option value="1">1 star</option>
+                </select>
+              </div>
+              <div class="field full"><label for="rvText">Review text *</label><textarea id="rvText" rows="2" placeholder="What did the customer say?"></textarea></div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+              <button class="mini-btn grad" type="submit" id="rvSave">Save Review</button>
+              <button class="mini-btn" type="button" id="rvCancel" hidden>Cancel Edit</button>
+            </div>
+            <p class="admin-note">Reviews show on the storefront under “Loved by our brides”. The pre-filled reviews are demo text — replace them with your real customer reviews.</p>
           </form>
         </div>
 
@@ -1104,6 +1368,14 @@
               <div class="field"><label for="sfInsta">Instagram link</label><input id="sfInsta" type="url" placeholder="https://www.instagram.com/…" /></div>
               <div class="field"><label for="sfAddress">Shop address</label><input id="sfAddress" type="text" /></div>
               <div class="field"><label for="sfTiming">Timings</label><input id="sfTiming" type="text" /></div>
+              <div class="field"><label for="sfDelArea1">Delivery area 1</label><input id="sfDelArea1" type="text" /></div>
+              <div class="field"><label for="sfDelFee1">Area 1 delivery charges (Rs)</label><input id="sfDelFee1" type="number" min="0" step="50" /></div>
+              <div class="field"><label for="sfDelTime1">Area 1 delivery time</label><input id="sfDelTime1" type="text" placeholder="e.g. 1–2 days" /></div>
+              <div class="field"><label for="sfDelArea2">Delivery area 2</label><input id="sfDelArea2" type="text" /></div>
+              <div class="field"><label for="sfDelFee2">Area 2 delivery charges (Rs)</label><input id="sfDelFee2" type="number" min="0" step="50" /></div>
+              <div class="field"><label for="sfDelTime2">Area 2 delivery time</label><input id="sfDelTime2" type="text" placeholder="e.g. 3–5 days" /></div>
+              <div class="field"><label for="sfPayJazz">JazzCash account (optional)</label><input id="sfPayJazz" type="text" placeholder="Empty = details shared on Instagram" /></div>
+              <div class="field"><label for="sfPayEasy">Easypaisa account (optional)</label><input id="sfPayEasy" type="text" placeholder="Empty = details shared on Instagram" /></div>
             </div>
             <div style="margin-top:16px"><button class="mini-btn grad" type="submit">Save Settings</button></div>
             <p class="admin-note">Contact on this demo stays Instagram-only — no phone or WhatsApp number is published anywhere on the site.</p>
@@ -1155,7 +1427,15 @@
         {id:'o3', title:'Early Bird Barat', text:'Reserve any barat dress 3+ weeks ahead and get Rs 1,000 off.'}
       ],
       rental: { secMin:10000, secMax:30000, rules:'Booking rules: reserve at least 3 days ahead · return the next day by 12 noon · security is refunded in full on a timely return in the same condition.' },
-      settings: { shopName:'Gul & Glam', address:'Abbottabad, Khyber Pakhtunkhwa', timing:'Trials & fittings by appointment', instagram:'https://www.instagram.com/' }
+      settings: { shopName:'Gul & Glam', address:'Abbottabad, Khyber Pakhtunkhwa', timing:'Trials & fittings by appointment', instagram:'https://www.instagram.com/', delArea1:'Abbottabad city', delFee1:200, delTime1:'1–2 days', delArea2:'Nationwide (Pakistan)', delFee2:350, delTime2:'3–5 days', payJazz:'', payEasy:'' },
+      orders: [],
+      cart: [],
+      orderSeq: 1001,
+      reviews: [
+        {id:'r1', name:'Ayesha K.', stars:5, text:'Booked the Classic Red Barat Lehenga for my sister’s barat — the fitting was free, the dress looked brand new, and the security deposit came back the same week. Zero stress.'},
+        {id:'r2', name:'Mahnoor S.', stars:5, text:'Rented the Champagne Gold Walima Gown and everyone asked where it was from! Booking was quick and pickup was right on time.'},
+        {id:'r3', name:'Fatima R.', stars:4, text:'The Marigold Mehndi Lehenga photographed beautifully at my dholki. Loved that draping and fitting help were included in the rent.'}
+      ]
     };
   }
   function loadState(){
@@ -1166,6 +1446,16 @@
     return seedState();
   }
   var state = loadState();
+  /* Orders, cart, reviews and delivery/payment settings were added after the
+     first demo build — older saved states get safe defaults, never fake data. */
+  if(!Array.isArray(state.orders)) state.orders = [];
+  if(!Array.isArray(state.cart)) state.cart = [];
+  if(!Array.isArray(state.reviews)) state.reviews = seedState().reviews;
+  if(!state.orderSeq) state.orderSeq = 1001 + state.orders.length;
+  (function(){
+    var d = { delArea1:'Abbottabad city', delFee1:200, delTime1:'1–2 days', delArea2:'Nationwide (Pakistan)', delFee2:350, delTime2:'3–5 days', payJazz:'', payEasy:'' };
+    for(var k in d) if(state.settings[k] == null) state.settings[k] = d[k];
+  })();
   function saveState(){
     try{ window.localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){}
   }
@@ -1222,21 +1512,33 @@
   /* ================= Storefront renders ================= */
   var grid = document.getElementById('dressGrid');
   var activeFilter = 'all';
+  var shopQuery = '', shopSort = '';
   function renderDresses(){
-    grid.innerHTML = state.dresses.map(function(d){
-      var show = (activeFilter === 'all' || d.cat === activeFilter);
+    var list = state.dresses.slice();
+    if(shopSort === 'low') list.sort(function(a, b){ return (a.rent || 0) - (b.rent || 0); });
+    else if(shopSort === 'high') list.sort(function(a, b){ return (b.rent || 0) - (a.rent || 0); });
+    else if(shopSort === 'name') list.sort(function(a, b){ return String(a.name).localeCompare(String(b.name)); });
+    var q = shopQuery.trim().toLowerCase();
+    var visible = 0;
+    grid.innerHTML = list.map(function(d){
+      var show = (activeFilter === 'all' || d.cat === activeFilter) && (!q || (d.name + ' ' + (CAT_LABEL[d.cat] || d.cat) + ' ' + d.cat).toLowerCase().indexOf(q) !== -1);
+      if(show) visible++;
       return '<article class="card reveal' + (show ? '' : ' hide') + '" data-cat="' + esc(d.cat) + '" data-id="' + esc(d.id) + '">' +
         '<div class="ph"><img src="' + esc(d.img) + '" alt="' + esc(d.alt || d.name) + '" loading="lazy" />' +
         '<span class="tag' + (d.cat === 'barat' ? ' maroon' : '') + '">' + esc(CAT_LABEL[d.cat] || d.cat) + '</span>' +
-        '<span class="rent-badge">Rent <b>' + rs(d.rent) + '</b></span></div>' +
+        '<span class="rent-badge">Rent <b>' + rs(d.rent) + '</b></span>' +
+        (d.soldout ? '<span class="flagpo out">Booked Out</span>' : (d.preorder ? '<span class="flagpo">Pre-Order</span>' : '')) + '</div>' +
         '<div class="card-body"><h3>' + esc(d.name) + '</h3>' +
         '<p class="desc">' + esc(d.desc) + '</p>' +
         (d.sizes ? '<p class="meta">Sizes: ' + esc(d.sizes) + '</p>' : '') +
         '<div class="price-row"><div class="rent">' + rs(d.rent) + ' <small>/ day</small></div>' +
         '<div class="sec">Security<br />' + rs(d.security) + ' refundable</div></div>' +
-        '<button class="reserve" type="button" data-dress="' + esc(d.name) + '">Reserve This Dress</button>' +
+        '<button class="reserve" type="button" data-dress="' + esc(d.name) + '"' + (d.soldout ? ' disabled' : '') + '>' + (d.soldout ? 'Booked Out' : 'Reserve This Dress') + '</button>' +
+        '<button class="add-cart" type="button" data-addcart="' + esc(d.id) + '"' + (d.soldout ? ' disabled' : '') + '>Add to Cart</button>' +
         '</div></article>';
     }).join('');
+    var none = document.getElementById('shopNone');
+    if(none) none.hidden = visible > 0;
     stagger('#dressGrid .card', .09);
     observeReveals(grid);
     if(reduced || !io){ grid.querySelectorAll('.card').forEach(function(c){ c.classList.add('in'); }); }
@@ -1274,6 +1576,8 @@
   }
   function renderAll(){
     renderDresses(); renderBookingOptions(true); renderOffers(); renderBindings(); renderTryOn(tryCat, true);
+    if(typeof renderReviews === 'function') renderReviews();
+    if(typeof renderDelivery === 'function') renderDelivery();
     if(typeof renderOrbit === 'function') renderOrbit();
     if(typeof renderRail === 'function') renderRail();
     if(typeof renderLooks === 'function') renderLooks();
@@ -1289,13 +1593,13 @@
       document.querySelectorAll('.filter').forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
       activeFilter = btn.getAttribute('data-filter');
-      grid.querySelectorAll('.card').forEach(function(c){
-        var show = (activeFilter === 'all' || c.getAttribute('data-cat') === activeFilter);
-        c.classList.toggle('hide', !show);
-        if(show) c.classList.add('in');
-      });
+      renderDresses();
     });
   });
+  var shopSearchEl = document.getElementById('shopSearch');
+  if(shopSearchEl) shopSearchEl.addEventListener('input', function(){ shopQuery = shopSearchEl.value; renderDresses(); });
+  var shopSortEl = document.getElementById('shopSort');
+  if(shopSortEl) shopSortEl.addEventListener('change', function(){ shopSort = shopSortEl.value; renderDresses(); });
 
   /* Reserve buttons (delegated) */
   function chooseDressByName(name){
@@ -1510,7 +1814,17 @@
       var avail = colourAvailable(item, i);
       return '<button type="button" class="swatch' + (i === qvColour ? ' active' : '') + (avail ? '' : ' unavailable') + '" data-qvswatch="' + i + '" style="background:' + esc(c.hex) + '"' + (avail ? '' : ' disabled aria-disabled="true"') + ' aria-label="Colour ' + esc(c.n) + (avail ? '' : ' — photo not available') + '" title="' + esc(c.n) + (avail ? '' : ' — photo not available for this colour') + '"></button>';
     }).join('');
-    document.getElementById('qvBook').textContent = item.cat === 'accessories' ? 'Book This Piece' : 'Book This Dress';
+    document.getElementById('qvBook').textContent = item.soldout ? 'Booked Out' : (item.cat === 'accessories' ? 'Book This Piece' : 'Book This Dress');
+    document.getElementById('qvBook').disabled = !!item.soldout;
+    var qvAddBtn = document.getElementById('qvAddCart');
+    qvAddBtn.textContent = item.soldout ? 'Booked Out' : 'Add to Cart';
+    qvAddBtn.disabled = !!item.soldout;
+    var qvPre = document.getElementById('qvPre');
+    if(item.preorder){
+      qvPre.textContent = 'Pre-Order' + (item.preNote ? ' — ' + item.preNote : '') + '. You can book it now and we will confirm the exact date on Instagram.';
+      qvPre.classList.add('show');
+    } else { qvPre.textContent = ''; qvPre.classList.remove('show'); }
+    if(typeof renderQvRelated === 'function') renderQvRelated(item);
     qvOverlay.classList.add('open');
     document.body.classList.add('locked');
     qvOverlay.scrollTop = 0;
@@ -1559,6 +1873,138 @@
     }
     document.getElementById('book').scrollIntoView({behavior: reduced ? 'auto' : 'smooth'});
   });
+
+  /* ================= Cart ================= */
+  var cartDrawer = document.getElementById('cartDrawer');
+  var cartBackdrop = document.getElementById('cartBackdrop');
+  function cartKey(id, size, colour){ return id + '|' + (size || '') + '|' + (colour || ''); }
+  function addToCart(item, size, colourName, img){
+    if(!item || item.soldout) return;
+    var key = cartKey(item.id, size, colourName);
+    var line = null;
+    state.cart.forEach(function(l){ if(l.key === key) line = l; });
+    if(line) line.qty += 1;
+    else state.cart.push({ key:key, id:item.id, name:item.name, img:img || item.img, size:size || '', colour:colourName || '', rent:item.rent || 0, security:item.security || 0, qty:1, preorder:!!item.preorder, preNote:item.preNote || '' });
+    saveState(); renderCart();
+  }
+  function addToCartDefault(item){
+    if(!item) return;
+    var sizes = String(item.sizes || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+    var col = (item.colours && item.colours[0]) || {n:'As Shown'};
+    addToCart(item, sizes[0] || '', col.n, colourPhoto(item, 0) || item.img);
+  }
+  function cartTotals(){
+    var rent = 0, sec = 0, count = 0;
+    state.cart.forEach(function(l){ rent += (l.rent || 0) * l.qty; sec += (l.security || 0) * l.qty; count += l.qty; });
+    return { rent:rent, sec:sec, count:count };
+  }
+  function renderCart(){
+    var t = cartTotals();
+    var badge = document.getElementById('cartCount');
+    if(badge){ badge.textContent = t.count; badge.hidden = t.count === 0; }
+    var box = document.getElementById('cartItems');
+    var foot = document.getElementById('cartFoot');
+    if(!state.cart.length){
+      box.innerHTML = '<p class="cart-empty">Your cart is empty — add a dress, a piece, or a full look to get started.</p>';
+      foot.style.display = 'none';
+    } else {
+      foot.style.display = '';
+      box.innerHTML = state.cart.map(function(l){
+        return '<div class="citem"><img src="' + esc(l.img) + '" alt="" />' +
+          '<div class="ci"><b>' + esc(l.name) + '</b>' +
+          (l.size || l.colour ? '<span>' + esc([l.size, l.colour].filter(Boolean).join(' · ')) + '</span>' : '') +
+          '<span>' + rs(l.rent) + ' / day · Security ' + rs(l.security) + '</span>' +
+          (l.preorder ? '<span class="ctag">Pre-Order' + (l.preNote ? ' · ' + esc(l.preNote) : '') + '</span>' : '') +
+          '<div class="cqty"><button type="button" data-cdec="' + esc(l.key) + '" aria-label="Decrease quantity">−</button><span>' + l.qty + '</span><button type="button" data-cinc="' + esc(l.key) + '" aria-label="Increase quantity">+</button></div></div>' +
+          '<div class="cl"><b>' + rs(l.rent * l.qty) + '</b><button type="button" class="crm" data-crem="' + esc(l.key) + '" aria-label="Remove ' + esc(l.name) + ' from cart">✕</button></div></div>';
+      }).join('');
+    }
+    document.getElementById('cartRentTotal').textContent = rs(t.rent);
+    document.getElementById('cartSecTotal').textContent = rs(t.sec);
+    if(typeof syncBookFormMode === 'function') syncBookFormMode();
+  }
+  function openCart(){
+    renderCart();
+    cartDrawer.classList.add('open');
+    cartBackdrop.classList.add('open');
+    document.body.classList.add('locked');
+  }
+  function closeCart(){
+    cartDrawer.classList.remove('open');
+    cartBackdrop.classList.remove('open');
+    if(!qvOverlay.classList.contains('open')) document.body.classList.remove('locked');
+  }
+  document.getElementById('cartBtn').addEventListener('click', openCart);
+  document.getElementById('cartClose').addEventListener('click', closeCart);
+  cartBackdrop.addEventListener('click', closeCart);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && cartDrawer.classList.contains('open')) closeCart(); });
+  document.getElementById('cartItems').addEventListener('click', function(e){
+    var inc = e.target.closest('[data-cinc]'), dec = e.target.closest('[data-cdec]'), rem = e.target.closest('[data-crem]');
+    var key = inc ? inc.getAttribute('data-cinc') : dec ? dec.getAttribute('data-cdec') : rem ? rem.getAttribute('data-crem') : null;
+    if(!key) return;
+    if(rem){ state.cart = state.cart.filter(function(l){ return l.key !== key; }); }
+    else state.cart.forEach(function(l){
+      if(l.key !== key) return;
+      if(inc) l.qty += 1;
+      if(dec) l.qty -= 1;
+    });
+    state.cart = state.cart.filter(function(l){ return l.qty > 0; });
+    saveState(); renderCart();
+  });
+  document.getElementById('cartCheckout').addEventListener('click', function(){
+    closeCart();
+    document.getElementById('book').scrollIntoView({behavior: reduced ? 'auto' : 'smooth'});
+  });
+  grid.addEventListener('click', function(e){
+    var b = e.target.closest('[data-addcart]');
+    if(!b || b.disabled) return;
+    var it = findItem(b.getAttribute('data-addcart'));
+    if(it) addToCartDefault(it);
+  });
+  document.getElementById('qvAddCart').addEventListener('click', function(){
+    if(!qvItem || qvItem.soldout) return;
+    var col = (qvItem.colours && qvItem.colours[qvColour]) || {n:'As Shown'};
+    addToCart(qvItem, qvSize, col.n, colourPhoto(qvItem, qvColour) || qvItem.img);
+    var btn = this;
+    btn.textContent = 'Added to Cart ✓';
+    setTimeout(function(){ if(qvItem) btn.textContent = qvItem.soldout ? 'Booked Out' : 'Add to Cart'; }, 1500);
+  });
+
+  /* "You may also like" inside the quick view — same collection, each card
+     opens its own quick view and can be added to the cart directly. */
+  function renderQvRelated(item){
+    var rel = allItems().filter(function(x){ return x.cat === item.cat && x.id !== item.id; }).slice(0, 3);
+    var wrap = document.getElementById('qvRelated');
+    if(!rel.length){ wrap.hidden = true; return; }
+    wrap.hidden = false;
+    document.getElementById('qvRelRow').innerHTML = rel.map(function(x){
+      return '<div class="rel-card" data-rel="' + esc(x.id) + '" role="button" tabindex="0" aria-label="' + esc(x.name) + ' — quick view"><img src="' + esc(x.img) + '" alt="" /><b>' + esc(x.name) + '</b><span>' + rs(x.rent) + ' / day</span><button type="button" class="rel-add" data-reladd="' + esc(x.id) + '"' + (x.soldout ? ' disabled' : '') + '>' + (x.soldout ? 'Booked Out' : 'Add to Cart') + '</button></div>';
+    }).join('');
+  }
+  document.getElementById('qvRelRow').addEventListener('click', function(e){
+    var add = e.target.closest('[data-reladd]');
+    if(add){ e.stopPropagation(); if(!add.disabled) addToCartDefault(findItem(add.getAttribute('data-reladd'))); return; }
+    var card = e.target.closest('[data-rel]');
+    if(card){ openQuickView(card.getAttribute('data-rel'), 0); qvOverlay.scrollTop = 0; }
+  });
+
+  /* Size guide modal (linked from the shop tools and the quick view) */
+  var sgOverlay = document.getElementById('sgOverlay');
+  document.querySelectorAll('[data-sizeguide]').forEach(function(b){
+    b.addEventListener('click', function(){
+      sgOverlay.classList.add('open');
+      document.body.classList.add('locked');
+      sgOverlay.scrollTop = 0;
+    });
+  });
+  function closeSizeGuide(){
+    sgOverlay.classList.remove('open');
+    if(!qvOverlay.classList.contains('open') && !cartDrawer.classList.contains('open')) document.body.classList.remove('locked');
+  }
+  document.getElementById('sgClose').addEventListener('click', closeSizeGuide);
+  sgOverlay.addEventListener('click', function(e){ if(e.target === sgOverlay) closeSizeGuide(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && sgOverlay.classList.contains('open')) closeSizeGuide(); });
+  renderCart();
 
   /* ================= 1) Drag-to-Orbit Wheel ================= */
   var orbitStage = document.getElementById('orbitStage');
@@ -1699,21 +2145,63 @@
     document.getElementById('railCapPrice').textContent = rs(entry.item.rent) + ' / day · Security ' + rs(entry.item.security) + ' refundable';
     document.getElementById('railCapDesc').textContent = entry.item.desc || '';
   }
-  function layoutRail(){
-    var entries = railEntries();
-    var nodes = railStage.querySelectorAll('.rail-item');
-    if(!entries.length || !nodes.length || !railPath.getTotalLength) return;
-    var L = railPath.getTotalLength();
+  /* Moving rail: railOffset is a 0..1 cycle position added to every card's
+     slot. The rAF loop advances it slowly so the cards glide along the curve
+     and wrap from the right end back to the left. The travel range is inset
+     from the measured card width, so a card is fully on screen at every
+     point of the cycle — at phone widths too. */
+  var railOffset = 0, railResumeAt = 0, railPointerDown = false, railHovering = false;
+  var railSuppressClick = false, railGeomCache = null, railLastTs = null;
+  var RAIL_SPEED_PX = 16; /* px per second along the curve — a gentle drift */
+  function railPause(ms){ railResumeAt = Date.now() + (ms || 3000); }
+  function railMeasure(){
     var W = railStage.clientWidth, H = railStage.clientHeight;
+    var node = railStage.querySelector('.rail-item');
+    if(!W || !H || !node || !railPath.getTotalLength) return null;
+    var cardW = node.offsetWidth || 158;
+    if(railGeomCache && railGeomCache.W === W && railGeomCache.H === H && railGeomCache.cardW === cardW) return railGeomCache;
+    var L = railPath.getTotalLength();
+    var half = cardW / 2 + 8; /* px of clearance kept at both screen edges */
+    function xAt(t){ return railPath.getPointAtLength(t * L).x / 1000 * W; }
+    function tForX(target){
+      var lo = 0, hi = 1;
+      for(var k = 0; k < 26; k++){ var mid = (lo + hi) / 2; if(xAt(mid) < target) lo = mid; else hi = mid; }
+      return (lo + hi) / 2;
+    }
+    var tMin = tForX(half), tMax = tForX(Math.max(half + 1, W - half));
+    if(!(tMax > tMin)){ tMin = 0.45; tMax = 0.55; }
+    railGeomCache = { W:W, H:H, L:L, cardW:cardW, tMin:tMin, tMax:tMax, spanPx:(tMax - tMin) * L * (W / 1000) };
+    return railGeomCache;
+  }
+  function layoutRail(){
+    var g = railMeasure(); if(!g) return;
+    var nodes = railStage.querySelectorAll('.rail-item');
+    var n = nodes.length; if(!n) return;
+    var span = g.tMax - g.tMin;
     nodes.forEach(function(node, i){
-      var t = entries.length === 1 ? 0.5 : 0.1 + 0.8 * (i / (entries.length - 1));
-      var pt = railPath.getPointAtLength(t * L);
-      var x = pt.x / 1000 * W, y = pt.y / 400 * H;
+      var pos = (i / n + railOffset) % 1;
+      var pt = railPath.getPointAtLength((g.tMin + pos * span) * g.L);
+      var x = pt.x / 1000 * g.W, y = pt.y / 400 * g.H;
+      var target = node.classList.contains('focus') ? 1.14 : 1;
+      var cur = (node._rs == null) ? 1 : node._rs;
+      cur += (target - cur) * 0.16; if(Math.abs(target - cur) < 0.003) cur = target;
+      node._rs = cur;
       node.style.left = x + 'px';
       node.style.top = (y + 34) + 'px';
-      node.style.transform = 'translateX(-50%)' + (node.classList.contains('focus') ? ' scale(1.14)' : '');
+      node.style.transform = 'translateX(-50%) scale(' + cur.toFixed(3) + ')';
     });
   }
+  function railTick(ts){
+    if(railLastTs == null) railLastTs = ts;
+    var dt = Math.min((ts - railLastTs) / 1000, 0.05); railLastTs = ts;
+    var g = railGeomCache;
+    var canDrift = !reduced && !document.hidden && !railPointerDown && Date.now() >= railResumeAt &&
+      !(railHovering && railStage.classList.contains('has-focus'));
+    if(canDrift && g && g.spanPx > 0) railOffset = (railOffset + (RAIL_SPEED_PX * dt) / g.spanPx) % 1;
+    layoutRail();
+    requestAnimationFrame(railTick);
+  }
+  requestAnimationFrame(railTick);
   function renderRail(){
     var entries = railEntries();
     railStage.querySelectorAll('.rail-item').forEach(function(n){ n.remove(); });
@@ -1726,6 +2214,7 @@
     });
     railStage.classList.toggle('few', entries.length <= 3);
     railStage.classList.remove('has-focus');
+    railGeomCache = null;
     if(entries.length) railCaption(entries[Math.floor(entries.length / 2)]);
     requestAnimationFrame(layoutRail);
   }
@@ -1734,17 +2223,20 @@
     railStage.classList.add('has-focus');
     railStage.querySelectorAll('.rail-item').forEach(function(n, i){
       n.classList.toggle('focus', i === idx);
-      n.style.transform = 'translateX(-50%)' + (i === idx ? ' scale(1.14)' : '');
     });
     railCaption(entries[idx]);
+    railPause(3000);
+    layoutRail();
   }
   railStage.addEventListener('mouseover', function(e){
     /* Hover spotlight only on hover-capable devices; on touch, the click
        handler below gives tap = spotlight, second tap = quick view. */
     if(window.matchMedia && window.matchMedia('(hover: none)').matches) return;
+    railHovering = true;
     var n = e.target.closest('.rail-item'); if(n) railFocus(parseInt(n.getAttribute('data-rail-idx'), 10) || 0);
   });
   railStage.addEventListener('click', function(e){
+    if(railSuppressClick){ railSuppressClick = false; return; }
     var n = e.target.closest('.rail-item'); if(!n) return;
     var idx = parseInt(n.getAttribute('data-rail-idx'), 10) || 0;
     var entries = railEntries();
@@ -1753,10 +2245,53 @@
     } else { railFocus(idx); }
   });
   railStage.addEventListener('mouseleave', function(){
+    railHovering = false;
     railStage.classList.remove('has-focus');
-    railStage.querySelectorAll('.rail-item').forEach(function(n){ n.classList.remove('focus'); n.style.transform = 'translateX(-50%)'; });
+    railStage.querySelectorAll('.rail-item').forEach(function(n){ n.classList.remove('focus'); });
+    railPause(2500);
+    layoutRail();
   });
-  window.addEventListener('resize', function(){ layoutRail(); });
+  window.addEventListener('resize', function(){ railGeomCache = null; layoutRail(); });
+
+  /* Drag / swipe the rail: only clearly-horizontal drags are claimed
+     (touch-action:pan-y leaves vertical page scrolling to the browser);
+     a small movement stays a tap and keeps the click behaviour above. */
+  (function(){
+    var startX = 0, startY = 0, startOffset = 0, pid = null;
+    var isDown = false, dragging = false, maxDx = 0, maxDy = 0;
+    railStage.addEventListener('pointerdown', function(e){
+      if(e.button != null && e.button > 0) return;
+      isDown = true; railPointerDown = true; dragging = false;
+      startX = e.clientX; startY = e.clientY; startOffset = railOffset; pid = e.pointerId;
+      maxDx = 0; maxDy = 0;
+      railPause(5000);
+    });
+    railStage.addEventListener('pointermove', function(e){
+      if(!isDown || e.pointerId !== pid) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      maxDx = Math.max(maxDx, Math.abs(dx)); maxDy = Math.max(maxDy, Math.abs(dy));
+      if(!dragging){
+        if(maxDx > 9 && maxDx > maxDy * 1.25){
+          dragging = true;
+          railStage.classList.add('dragging');
+          try{ railStage.setPointerCapture(pid); }catch(err){}
+        } else return;
+      }
+      var g = railMeasure(); if(!g || !g.spanPx) return;
+      railOffset = (((startOffset + dx / g.spanPx) % 1) + 1) % 1;
+      layoutRail();
+    });
+    function endDrag(){
+      if(!isDown) return;
+      isDown = false; railPointerDown = false;
+      railStage.classList.remove('dragging');
+      if(dragging){ railSuppressClick = true; railPause(3000); }
+      dragging = false;
+      layoutRail();
+    }
+    railStage.addEventListener('pointerup', endDrag);
+    railStage.addEventListener('pointercancel', endDrag);
+  })();
 
   /* ================= 3) Shuffle Grid — Complete Bridal Looks ================= */
   var looksRow = document.getElementById('looksRow');
@@ -1774,6 +2309,30 @@
     }
     return looks;
   }
+  /* FLIP animation for the looks row: measure every card, re-sort, then
+     glide each card from its old spot to its new one — so a shuffle or a
+     selection is something you SEE happening in the line itself. */
+  function flipLooks(mutate){
+    if(reduced){ mutate(); renderLooks(); return; }
+    var before = {};
+    looksRow.querySelectorAll('.look-card').forEach(function(c){
+      before[c.getAttribute('data-look')] = c.getBoundingClientRect();
+    });
+    mutate();
+    renderLooks();
+    looksRow.querySelectorAll('.look-card').forEach(function(c){
+      var f = before[c.getAttribute('data-look')]; if(!f) return;
+      var l = c.getBoundingClientRect();
+      var dx = f.left - l.left, dy = f.top - l.top;
+      if(!dx && !dy) return;
+      var fin = c.style.transform;
+      c.style.transition = 'none';
+      c.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) ' + fin;
+      void c.offsetWidth;
+      c.style.transition = '';
+      c.style.transform = fin;
+    });
+  }
   function renderLooks(){
     var looks = buildLooks();
     if(!lookOrder || lookOrder.length !== looks.length) lookOrder = looks.map(function(_, i){ return i; });
@@ -1783,7 +2342,7 @@
       var dist = Math.abs(pos - centre);
       var scale = pos === centre ? 1 : (dist === 1 ? 0.92 : 0.84);
       var op = pos === centre ? 1 : (dist === 1 ? 0.72 : 0.5);
-      return '<button type="button" class="look-card' + (pos === centre ? ' centre' : '') + '" data-look="' + esc(lk.id) + '" style="transform:scale(' + scale + ');opacity:' + op + '" aria-label="' + esc(lk.name + ' — ' + lk.dress.name) + '"><img src="' + esc(lk.dress.img) + '" alt="' + esc(lk.dress.alt || lk.dress.name) + '" loading="lazy" /><span class="ln">' + esc(lk.name) + '</span><span class="lp">' + esc(lk.dress.name) + ' · Looks from ' + rs(lk.total) + '</span></button>';
+      return '<button type="button" class="look-card' + (pos === centre ? ' centre' : '') + (lk.id === selectedLookId ? ' sel' : '') + '" data-look="' + esc(lk.id) + '" style="transform:scale(' + scale + ');opacity:' + op + '" aria-label="' + esc(lk.name + ' — ' + lk.dress.name) + '"><img src="' + esc(lk.dress.img) + '" alt="' + esc(lk.dress.alt || lk.dress.name) + '" loading="lazy" /><span class="ln">' + esc(lk.name) + '</span><span class="lp">' + esc(lk.dress.name) + ' · Looks from ' + rs(lk.total) + '</span></button>';
     }).join('');
     if(selectedLookId){
       var still = buildLooks().some(function(l){ return l.id === selectedLookId; });
@@ -1808,7 +2367,7 @@
       }).join('') +
       '<div class="look-total"><span>Total Rent</span><span class="tv">' + rs(total) + '</span></div>' +
       '<p style="color:#6f675a;font-size:.85rem;margin:8px 0 0;font-weight:300">Full look value ' + rs(lk.total) + ' / day plus refundable securities. Tap + to build your own total.</p>' +
-      '<button type="button" class="pill-black" id="bookLookBtn">Book Full Look</button></div>';
+      '<button type="button" class="pill-black" id="bookLookBtn">Add Full Look to Cart</button></div>';
     lookDetail.classList.add('open');
     lookDetail.querySelectorAll('[data-piece]').forEach(function(btn){
       btn.addEventListener('click', function(){
@@ -1819,26 +2378,38 @@
     });
     var bl = document.getElementById('bookLookBtn');
     if(bl) bl.addEventListener('click', function(){
-      var names = lk.pieces.filter(function(p){ return lookAdded[lk.id][p.id]; }).map(function(p){ return p.name; });
-      chooseDressByName(lk.dress.name);
-      document.getElementById('inNotes').value = 'Full look: ' + lk.name + ' — ' + lk.dress.name + (names.length ? ' · Pieces: ' + names.join(', ') : '') + ' · Total rent ' + rs(total);
-      document.getElementById('book').scrollIntoView({behavior: reduced ? 'auto' : 'smooth'});
+      lk.pieces.forEach(function(p){ if(lookAdded[lk.id][p.id]) addToCartDefault(p); });
+      openCart();
     });
   }
   looksRow.addEventListener('click', function(e){
     var c = e.target.closest('[data-look]'); if(!c) return;
-    selectedLookId = c.getAttribute('data-look');
+    var id = c.getAttribute('data-look');
+    selectedLookId = id;
+    /* Bring the tapped look to the centre of the line (with the FLIP glide),
+       so the row itself visibly changes — not just the detail panel. */
+    flipLooks(function(){
+      var looks = buildLooks();
+      var li = -1;
+      looks.forEach(function(l, i){ if(l.id === id) li = i; });
+      if(li < 0 || !lookOrder) return;
+      var pos = lookOrder.indexOf(li);
+      if(pos < 0) return;
+      lookOrder.splice(pos, 1);
+      lookOrder.splice(Math.floor((lookOrder.length + 1) / 2), 0, li);
+    });
     renderLookDetail();
     lookDetail.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block:'nearest'});
   });
   document.getElementById('shuffleBtn').addEventListener('click', function(){
-    var looks = buildLooks();
-    lookOrder = looks.map(function(_, i){ return i; });
-    for(var i = lookOrder.length - 1; i > 0; i--){
-      var j = Math.floor(Math.random() * (i + 1));
-      var tmp = lookOrder[i]; lookOrder[i] = lookOrder[j]; lookOrder[j] = tmp;
-    }
-    renderLooks();
+    flipLooks(function(){
+      var looks = buildLooks();
+      lookOrder = looks.map(function(_, i){ return i; });
+      for(var i = lookOrder.length - 1; i > 0; i--){
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = lookOrder[i]; lookOrder[i] = lookOrder[j]; lookOrder[j] = tmp;
+      }
+    });
   });
 
   /* ================= Admin Panel ================= */
@@ -1849,6 +2420,7 @@
     document.body.classList.add('locked');
     overlay.scrollTop = 0;
     if(!loggedIn){ var pi = document.getElementById('pinInput'); setTimeout(function(){ pi.focus(); }, 60); }
+    else if(typeof renderOrders === 'function'){ renderOrders(); } /* bookings placed while the panel was closed must show on reopen */
   }
   function closeAdmin(){
     overlay.classList.remove('open');
@@ -1898,7 +2470,7 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2600);
   }
-  function afterChange(){ saveState(); renderAll(); renderAdmin(); toast(); }
+  function afterChange(){ saveState(); renderAll(); renderAdmin(); if(typeof renderCart === 'function') renderCart(); toast(); }
 
   function renderAdmin(){
     /* Dresses list */
@@ -1922,7 +2494,140 @@
     document.getElementById('sfAddress').value = state.settings.address;
     document.getElementById('sfTiming').value = state.settings.timing;
     document.getElementById('sfInsta').value = state.settings.instagram;
+    document.getElementById('sfDelArea1').value = state.settings.delArea1;
+    document.getElementById('sfDelFee1').value = state.settings.delFee1;
+    document.getElementById('sfDelTime1').value = state.settings.delTime1;
+    document.getElementById('sfDelArea2').value = state.settings.delArea2;
+    document.getElementById('sfDelFee2').value = state.settings.delFee2;
+    document.getElementById('sfDelTime2').value = state.settings.delTime2;
+    document.getElementById('sfPayJazz').value = state.settings.payJazz || '';
+    document.getElementById('sfPayEasy').value = state.settings.payEasy || '';
+    renderOrders();
+    renderReviewsAdmin();
   }
+
+  /* ================= Admin: Orders ================= */
+  var ORDER_STATUSES = ['New', 'Confirmed', 'Dispatched', 'Delivered', 'Cancelled'];
+  function renderOrdersBadge(){
+    var n = state.orders.filter(function(o){ return o.status === 'New'; }).length;
+    var b = document.getElementById('ordersBadge');
+    if(b){ b.textContent = n; b.hidden = n === 0; }
+  }
+  function renderOrders(){
+    renderOrdersBadge();
+    var box = document.getElementById('adminOrderList');
+    if(!box) return;
+    if(!state.orders.length){
+      box.innerHTML = '<p class="admin-note">No orders yet — bookings placed through the booking form or cart checkout on this device will appear here, newest first.</p>';
+      return;
+    }
+    box.innerHTML = state.orders.map(function(o){
+      var when = new Date(o.placedAt);
+      var whenTxt = isNaN(when.getTime()) ? '' : when.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}) + ' · ' + when.toLocaleTimeString('en-GB', {hour:'numeric', minute:'2-digit'});
+      var itemsHtml = (o.items || []).map(function(i){
+        return '<span>' + esc(i.name) + (i.variant ? ' (' + esc(i.variant) + ')' : '') + ' × ' + (i.qty || 1) + ' — ' + rs(i.rent) + ' / day' + (i.preorder ? ' · PRE-ORDER' : '') + '</span>';
+      }).join('');
+      return '<div class="arow orow">' +
+        (o.items && o.items[0] && o.items[0].img ? '<img src="' + esc(o.items[0].img) + '" alt="" />' : '') +
+        '<div class="ai"><b>#' + o.oid + ' · ' + esc(o.customer) + (o.preorder ? '<span class="opre">Pre-Order</span>' : '') + '</b>' +
+        '<span>' + esc(o.phone) + (o.city ? ' · ' + esc(o.city) : '') + ' · Placed ' + esc(whenTxt) + '</span>' +
+        itemsHtml +
+        '<span>Function: ' + fmtDate(o.eventDate) + ' · ' + (o.days || 1) + ' day(s) · Pay: ' + esc(o.payment || 'Cash on Delivery') + (o.note ? ' · Note: ' + esc(o.note) : '') + '</span></div>' +
+        '<div class="ap">' + rs(o.total) + '<small>Rent total · Security ' + rs(o.securityTotal || 0) + ' refundable</small></div>' +
+        '<select class="ostatus" data-ostatus="' + esc(o.id) + '" aria-label="Status for order #' + o.oid + '">' +
+        ORDER_STATUSES.map(function(s){ return '<option' + (o.status === s ? ' selected' : '') + '>' + s + '</option>'; }).join('') +
+        '</select>' +
+        '<button class="mini-btn sm danger" type="button" data-odel="' + esc(o.id) + '">Delete</button></div>';
+    }).join('');
+  }
+  document.getElementById('adminOrderList').addEventListener('change', function(e){
+    var sel = e.target.closest('[data-ostatus]'); if(!sel) return;
+    var o = null;
+    state.orders.forEach(function(x){ if(x.id === sel.getAttribute('data-ostatus')) o = x; });
+    if(!o) return;
+    o.status = sel.value;
+    afterChange();
+  });
+  document.getElementById('adminOrderList').addEventListener('click', function(e){
+    var del = e.target.closest('[data-odel]'); if(!del) return;
+    if(del.getAttribute('data-armed') === '1'){
+      var id = del.getAttribute('data-odel');
+      state.orders = state.orders.filter(function(x){ return x.id !== id; });
+      afterChange();
+    } else {
+      del.setAttribute('data-armed', '1'); del.textContent = 'Sure?'; del.classList.add('armed');
+      setTimeout(function(){ del.removeAttribute('data-armed'); del.textContent = 'Delete'; del.classList.remove('armed'); }, 2600);
+    }
+  });
+
+  /* ================= Admin: Reviews ================= */
+  function starStr(n){ var s = ''; for(var i = 0; i < 5; i++) s += i < (n || 0) ? '★' : '☆'; return s; }
+  function renderReviews(){
+    var g = document.getElementById('revGrid');
+    if(!g) return;
+    g.innerHTML = state.reviews.map(function(r){
+      return '<div class="rev-card"><div class="rev-stars" aria-label="' + (r.stars || 0) + ' out of 5 stars">' + starStr(r.stars) + '</div><p>“' + esc(r.text) + '”</p><b>' + esc(r.name) + '</b></div>';
+    }).join('') || '<p class="demo-note">No reviews yet.</p>';
+  }
+  function renderReviewsAdmin(){
+    var box = document.getElementById('adminReviewList');
+    if(!box) return;
+    box.innerHTML = state.reviews.map(function(r){
+      return '<div class="arow"><div class="ai"><b>' + esc(r.name) + '</b><span>' + starStr(r.stars) + ' — ' + esc(r.text) + '</span></div>' +
+        '<button class="mini-btn sm" type="button" data-redit="' + esc(r.id) + '">Edit</button>' +
+        '<button class="mini-btn sm danger" type="button" data-rdel="' + esc(r.id) + '">Delete</button></div>';
+    }).join('') || '<p class="admin-note">No reviews yet — add your first below.</p>';
+  }
+  function resetReviewForm(){
+    document.getElementById('reviewForm').reset();
+    document.getElementById('rvId').value = '';
+    document.getElementById('reviewFormTitle').textContent = 'Add a Review';
+    document.getElementById('rvSave').textContent = 'Save Review';
+    document.getElementById('rvCancel').hidden = true;
+  }
+  document.getElementById('adminReviewList').addEventListener('click', function(e){
+    var ed = e.target.closest('[data-redit]');
+    var del = e.target.closest('[data-rdel]');
+    if(ed){
+      var r = null;
+      state.reviews.forEach(function(x){ if(x.id === ed.getAttribute('data-redit')) r = x; });
+      if(!r) return;
+      document.getElementById('rvId').value = r.id;
+      document.getElementById('rvName').value = r.name;
+      document.getElementById('rvStars').value = String(r.stars || 5);
+      document.getElementById('rvText').value = r.text;
+      document.getElementById('reviewFormTitle').textContent = 'Edit Review';
+      document.getElementById('rvSave').textContent = 'Save Changes';
+      document.getElementById('rvCancel').hidden = false;
+      document.getElementById('reviewForm').scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block:'center'});
+    }
+    if(del){
+      if(del.getAttribute('data-armed') === '1'){
+        var id = del.getAttribute('data-rdel');
+        state.reviews = state.reviews.filter(function(x){ return x.id !== id; });
+        afterChange();
+      } else {
+        del.setAttribute('data-armed', '1'); del.textContent = 'Sure?'; del.classList.add('armed');
+        setTimeout(function(){ del.removeAttribute('data-armed'); del.textContent = 'Delete'; del.classList.remove('armed'); }, 2600);
+      }
+    }
+  });
+  document.getElementById('rvCancel').addEventListener('click', resetReviewForm);
+  document.getElementById('reviewForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('rvName').value.trim();
+    var text = document.getElementById('rvText').value.trim();
+    var stars = parseInt(document.getElementById('rvStars').value, 10) || 5;
+    if(name.length < 2 || text.length < 3){ document.getElementById('rvName').focus(); return; }
+    var id = document.getElementById('rvId').value;
+    if(id){
+      state.reviews.forEach(function(r){ if(r.id === id){ r.name = name; r.stars = stars; r.text = text; } });
+    } else {
+      state.reviews.push({ id:'r' + Date.now(), name:name, stars:stars, text:text });
+    }
+    resetReviewForm();
+    afterChange();
+  });
 
   /* Dress edit / delete (delegated, two-step delete) */
   document.getElementById('adminDressList').addEventListener('click', function(e){
@@ -1940,6 +2645,9 @@
       document.getElementById('dfImgUrl').value = /^https?:\/\//.test(d.img) ? d.img : '';
       document.getElementById('dfSizes').value = d.sizes || '';
       document.getElementById('dfColours').value = (d.colours || []).map(function(c){ return c.n; }).join(', ');
+      document.getElementById('dfPreNote').value = d.preNote || '';
+      document.getElementById('dfPreorder').checked = !!d.preorder;
+      document.getElementById('dfSoldout').checked = !!d.soldout;
       document.getElementById('dfDesc').value = d.desc || '';
       document.getElementById('dressFormTitle').textContent = 'Edit Dress';
       document.getElementById('dfSave').textContent = 'Save Changes';
@@ -1983,6 +2691,9 @@
       alt: name,
       sizes: document.getElementById('dfSizes').value.trim(),
       desc: document.getElementById('dfDesc').value.trim(),
+      preorder: document.getElementById('dfPreorder').checked,
+      preNote: document.getElementById('dfPreNote').value.trim(),
+      soldout: document.getElementById('dfSoldout').checked,
       colours: coloursFromText(document.getElementById('dfColours').value, null)
     };
     var id = document.getElementById('dfId').value;
@@ -2035,6 +2746,14 @@
     state.settings.shopName = document.getElementById('sfName').value.trim() || state.settings.shopName;
     state.settings.address = document.getElementById('sfAddress').value.trim();
     state.settings.timing = document.getElementById('sfTiming').value.trim();
+    state.settings.delArea1 = document.getElementById('sfDelArea1').value.trim() || state.settings.delArea1;
+    var df1 = parseInt(document.getElementById('sfDelFee1').value, 10); if(!isNaN(df1)) state.settings.delFee1 = df1;
+    state.settings.delTime1 = document.getElementById('sfDelTime1').value.trim();
+    state.settings.delArea2 = document.getElementById('sfDelArea2').value.trim() || state.settings.delArea2;
+    var df2 = parseInt(document.getElementById('sfDelFee2').value, 10); if(!isNaN(df2)) state.settings.delFee2 = df2;
+    state.settings.delTime2 = document.getElementById('sfDelTime2').value.trim();
+    state.settings.payJazz = document.getElementById('sfPayJazz').value.trim();
+    state.settings.payEasy = document.getElementById('sfPayEasy').value.trim();
     var ig = document.getElementById('sfInsta').value.trim();
     if(ig) state.settings.instagram = ig;
     afterChange();
@@ -2091,15 +2810,50 @@
   /* ================= Booking form ================= */
   function iso(d){ return d.toISOString().slice(0,10); }
   var today = new Date(); today.setHours(0,0,0,0);
-  var ev = document.getElementById('inEvent'), rt = document.getElementById('inReturn');
-  ev.min = iso(today); rt.min = iso(today);
-  ev.addEventListener('change', function(){
-    if(!ev.value) return;
-    var d = new Date(ev.value + 'T00:00:00');
-    var next = new Date(d); next.setDate(next.getDate() + 1);
-    rt.min = iso(d);
-    if(!rt.value || rt.value <= ev.value) rt.value = iso(next);
-  });
+  var ev = document.getElementById('inEvent');
+  ev.min = iso(today);
+  var daysEl = document.getElementById('inDays');
+  daysEl.addEventListener('input', function(){ if(state.cart.length) renderCartSummary(); });
+
+  /* Delivery + payment info, rendered from the owner's Settings. */
+  function renderDelivery(){
+    var s = state.settings;
+    var cards = document.getElementById('delCards');
+    if(cards) cards.innerHTML =
+      '<div class="del-card"><b>' + esc(s.delArea1) + '</b><span>Dress delivery ' + rs(s.delFee1) + ' · ' + esc(s.delTime1) + ' — or free pickup from the shop (' + esc(s.address) + ').</span></div>' +
+      '<div class="del-card"><b>' + esc(s.delArea2) + '</b><span>Dress delivery ' + rs(s.delFee2) + ' · ' + esc(s.delTime2) + '. The security deposit stays refundable on a timely return.</span></div>';
+    var line = document.getElementById('delLine');
+    if(line) line.textContent = 'Delivery: ' + s.delArea1 + ' ' + rs(s.delFee1) + ' (' + s.delTime1 + ') · ' + s.delArea2 + ' ' + rs(s.delFee2) + ' (' + s.delTime2 + ') · Free shop pickup available.';
+    var pay = document.getElementById('payInfoLine');
+    if(pay){
+      var bits = [];
+      if(s.payJazz) bits.push('JazzCash: ' + s.payJazz);
+      if(s.payEasy) bits.push('Easypaisa: ' + s.payEasy);
+      pay.textContent = bits.length ? bits.join('  ·  ') : 'JazzCash / Easypaisa account details are shared when we confirm your booking on Instagram.';
+    }
+  }
+
+  /* When the cart has items, the booking form checks out the whole cart as
+     ONE order: the dress picker hides and a live cart summary takes over. */
+  function syncBookFormMode(){
+    var has = !!(state.cart && state.cart.length);
+    var cs = document.getElementById('cartSummary');
+    var fd = document.getElementById('f-dress');
+    if(cs) cs.hidden = !has;
+    if(fd) fd.style.display = has ? 'none' : '';
+    if(has) renderCartSummary();
+  }
+  function renderCartSummary(){
+    var box = document.getElementById('cartSummaryItems');
+    if(!box) return;
+    var days = Math.max(1, parseInt(document.getElementById('inDays').value, 10) || 1);
+    var t = cartTotals();
+    box.innerHTML = state.cart.map(function(l){
+      return '<div class="csr"><span>' + esc(l.name) + ' × ' + l.qty + (l.preorder ? ' · PRE-ORDER' : '') + '</span><b>' + rs(l.rent * l.qty) + ' / day</b></div>';
+    }).join('') +
+      '<div class="csr tot"><span>Rent total (' + days + (days === 1 ? ' day' : ' days') + ')</span><b>' + rs(t.rent * days) + '</b></div>' +
+      '<div class="csr"><span>Refundable security</span><b>' + rs(t.sec) + '</b></div>';
+  }
   var form = document.getElementById('bookForm');
   var confirmBox = document.getElementById('confirmBox');
   function setInvalid(id, bad){ document.getElementById(id).classList.toggle('invalid', bad); return !bad; }
@@ -2112,21 +2866,63 @@
     e.preventDefault();
     var name = document.getElementById('inName').value.trim();
     var phone = document.getElementById('inPhone').value.trim();
-    var dressText = dressSelect.value || (dressSelect.selectedIndex > 0 ? dressSelect.options[dressSelect.selectedIndex].text : '');
+    var days = parseInt(daysEl.value, 10);
+    var cartMode = state.cart.length > 0;
     var ok = true;
     ok = setInvalid('f-name', name.length < 2) && ok;
     ok = setInvalid('f-phone', phone.replace(/\D/g,'').length < 10) && ok;
-    ok = setInvalid('f-dress', dressSelect.selectedIndex === 0) && ok;
+    if(!cartMode) ok = setInvalid('f-dress', dressSelect.selectedIndex === 0) && ok;
     ok = setInvalid('f-event', !ev.value) && ok;
-    ok = setInvalid('f-return', !rt.value || rt.value <= ev.value) && ok;
+    ok = setInvalid('f-days', !(days >= 1)) && ok;
     if(!ok) return;
+    var items;
+    if(cartMode){
+      items = state.cart.map(function(l){
+        return { name:l.name, variant:[l.size, l.colour].filter(Boolean).join(' · '), qty:l.qty, rent:l.rent, security:l.security, img:l.img, preorder:!!l.preorder, preNote:l.preNote || '' };
+      });
+    } else {
+      var dressText = dressSelect.value || (dressSelect.selectedIndex > 0 ? dressSelect.options[dressSelect.selectedIndex].text : '');
+      var dName = dressText.replace(/ — Rent Rs [\d,]+$/, '').replace(/ \([^)]*\)$/, '');
+      var dress = null;
+      state.dresses.forEach(function(d){ if(d.name === dName) dress = d; });
+      items = [{ name: dress ? dress.name : dName, variant:'', qty:1, rent: dress ? (dress.rent || 0) : 0, security: dress ? (dress.security || 0) : 0, img: dress ? dress.img : '', preorder: !!(dress && dress.preorder), preNote: dress ? (dress.preNote || '') : '' }];
+    }
+    var rentPerDay = items.reduce(function(s, i){ return s + i.rent * i.qty; }, 0);
+    var secTotal = items.reduce(function(s, i){ return s + i.security * i.qty; }, 0);
+    var isPre = items.some(function(i){ return i.preorder; });
+    var payEl = document.querySelector('input[name="pay"]:checked');
+    var order = {
+      id: 'ord-' + Date.now().toString(36),
+      oid: state.orderSeq++,
+      placedAt: new Date().toISOString(),
+      customer: name, phone: phone,
+      city: document.getElementById('inCity').value,
+      note: document.getElementById('inNotes').value.trim(),
+      eventDate: ev.value, days: days,
+      items: items,
+      total: rentPerDay * days,
+      securityTotal: secTotal,
+      payment: payEl ? payEl.value : 'Cash on Delivery',
+      preorder: isPre,
+      status: 'New'
+    };
+    state.orders.unshift(order);
+    if(cartMode) state.cart = [];
+    saveState();
+    renderCart();
+    renderOrdersBadge();
     var rows = [
+      ['Order ID', '#' + order.oid],
       ['Name', name],
-      ['Dress', dressText.replace(/ — Rent Rs [\d,]+$/, '')],
+      [items.length > 1 ? 'Items' : 'Dress', items.map(function(i){ return i.name + (i.qty > 1 ? ' × ' + i.qty : ''); }).join(', ')],
       ['Event date', fmtDate(ev.value)],
-      ['Return date', fmtDate(rt.value)],
-      ['City', document.getElementById('inCity').value]
+      ['Rental days', String(days)],
+      ['Rent total', rs(order.total)],
+      ['Refundable security', rs(secTotal)],
+      ['Payment', order.payment],
+      ['City', order.city]
     ];
+    if(isPre) rows.splice(2, 0, ['PRE-ORDER', items.filter(function(i){ return i.preorder; }).map(function(i){ return i.name + (i.preNote ? ' — ' + i.preNote : ''); }).join('; ')]);
     document.getElementById('confirmSummary').innerHTML = rows.map(function(r){
       var div = document.createElement('div');
       var s = document.createElement('span'); s.textContent = r[0];
@@ -2134,6 +2930,7 @@
       div.appendChild(s); div.appendChild(b);
       return div.outerHTML;
     }).join('');
+    document.getElementById('confirmTrack').textContent = 'Your Order ID is #' + order.oid + ' — track your booking any time in the “Track Your Booking” section below.' + (isPre ? ' This booking includes a PRE-ORDER item.' : '');
     form.style.display = 'none';
     confirmBox.classList.add('show');
     confirmBox.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block:'center'});
@@ -2144,11 +2941,42 @@
     form.style.display = '';
     document.getElementById('book').scrollIntoView({behavior: reduced ? 'auto' : 'smooth'});
   });
-  ['inName','inPhone','inDress','inEvent','inReturn'].forEach(function(id){
+  ['inName','inPhone','inDress','inEvent','inDays'].forEach(function(id){
     document.getElementById(id).addEventListener('input', function(){
       var f = this.closest('.field'); if(f) f.classList.remove('invalid');
     });
   });
+
+  /* ================= Track Your Booking =================
+     Reads the same stored orders the admin dashboard writes. Dashboard
+     statuses map to rental steps: New = Received, Confirmed = Confirmed,
+     Dispatched = Picked Up / Out, Delivered = Returned. */
+  var TRACK_STEPS = ['Received', 'Confirmed', 'Picked Up / Out', 'Returned'];
+  var TRACK_IDX = { New:0, Confirmed:1, Dispatched:2, Delivered:3 };
+  function trackHtml(o){
+    var head = '<div class="track-order"><h4>Order #' + o.oid + ' — ' + esc(o.customer) + '</h4>' +
+      '<p class="tm">' + (o.items || []).map(function(i){ return esc(i.name) + (i.qty > 1 ? ' × ' + i.qty : ''); }).join(', ') +
+      ' · Function ' + fmtDate(o.eventDate) + ' · ' + (o.days || 1) + ' day(s) · Rent ' + rs(o.total) + (o.preorder ? ' · PRE-ORDER' : '') + '</p>';
+    if(o.status === 'Cancelled') return head + '<p class="track-cancel">This booking was cancelled. Message us on Instagram if you would like to rebook.</p></div>';
+    var idx = TRACK_IDX[o.status] == null ? 0 : TRACK_IDX[o.status];
+    return head + '<ol class="tsteps">' + TRACK_STEPS.map(function(s, i){
+      return '<li class="' + (i < idx ? 'done' : (i === idx ? 'now' : '')) + '">' + s + '</li>';
+    }).join('') + '</ol></div>';
+  }
+  document.getElementById('trackForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var q = document.getElementById('trackInput').value.trim();
+    var box = document.getElementById('trackResult');
+    if(!q){ box.innerHTML = ''; return; }
+    var qn = q.replace(/^#/, '');
+    var qd = q.replace(/\D/g, '');
+    var hits = state.orders.filter(function(o){
+      return String(o.oid) === qn || (qd.length >= 10 && String(o.phone || '').replace(/\D/g, '') === qd);
+    });
+    box.innerHTML = hits.length ? hits.map(trackHtml).join('') :
+      '<p class="track-none">No booking found for “' + esc(q) + '” in this browser. Bookings are stored on the device that placed them — try the same phone or browser you booked on, or message us on Instagram and we will check for you.</p>';
+  });
+  renderOrdersBadge();
 })();
 </script>
 </body>
